@@ -56,14 +56,16 @@ def delete_todo(position):
 @app.route('/todos/<int:position>', methods=['PUT'])
 def upd_todo(position):
     todo = Todo.query.get(position)
+    req = request.get_json()
     if todo is None:
         raise APIException('User not found', status_code=404)
 
-    if "label" in body:
-        todo.label = body["label"]
-    if "done" in body:
-        todo.done = body["done"]
+    if "label" in req:
+        todo.label = req["label"]
+    if "done" in req:
+        todo.done = req["done"]
     db.session.commit()
+    return ("Elemento modificado")
 
 
 # this only runs if `$ python src/main.py` is executed
